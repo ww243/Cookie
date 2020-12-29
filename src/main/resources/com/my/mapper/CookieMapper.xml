@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.my.dao.CookieDao">
+    <cache type="com.my.config.RedisCache"/>
+
+    <select id="selectAll" resultType="Cookie">
+        select * from cookie
+    </select>
+    <select id="selectByid" resultType="Cookie" parameterType="java.lang.String">
+        select * from cookie where id=#{id}
+    </select>
+    <insert id="insertCookie" parameterType="Cookie">
+        insert into cookie values (#{id},#{name},#{src,jdbcType=NULL},#{putTime},#{enterName},#{about},#{steps})
+    </insert>
+    <update id="updateCookie" parameterType="Cookie">
+        update cookie
+            <set>
+                <if test="name!=null">name=#{name}</if>
+                <if test="src!=null">,src=#{src}</if>
+                <if test="putTime!=null">,putTime=#{putTime}</if>
+                <if test="enterName!=null">,enterName=#{enterName}</if>
+                <if test="about!=null">,about=#{about}</if>
+                <if test="steps!=null">,steps=#{steps}</if>
+            </set>
+            where id=#{id}
+    </update>
+    <delete id="deleteCookie" parameterType="java.lang.String">
+        delete from cookie where id=#{id}
+    </delete>
+</mapper>
